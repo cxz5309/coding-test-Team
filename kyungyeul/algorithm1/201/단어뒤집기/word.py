@@ -1,23 +1,27 @@
-n = list(input())
-a = False
+s = list(input())
+tag = False
 word = ''
 result = ''
-for i in n:
-    if a == False:
+for i in s:
+    # 뒤집어서 출력
+    if tag == False:
         if i == '<':
-            a = True
-            word += i
+            tag = True
+            word = word+i
+        # 중간점검
         elif i == ' ':
-            word += i
-            result += word
+            word = word+i
+            result = result+word
             word = ''
         else:
-            word += i
-    elif a == True:
+            word = i+word
+
+    # 정상적으로 출력
+    elif tag == True:
         word = word+i
         if i == '>':
-            a = False
-            result += word
+            tag = False
+            result = result+word
             word = ''
 
 print(result+word)
