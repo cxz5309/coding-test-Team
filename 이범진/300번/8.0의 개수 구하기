@@ -1,0 +1,23 @@
+.core idea:5로 나눈 개수 구하기!
+
+```js
+const readline = require("readline");
+
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+});
+
+rl.on("line", (line) => {
+    main(Number(line));
+}).on("close", () => process.exit());
+
+
+const main = (line) => {
+    const five = parseInt(line / 5);
+    const twentyFive = parseInt(line / 25);
+    const fiveHundred = parseInt(line / 125);
+
+    console.log(five + twentyFive + fiveHundred);
+};
+```
