@@ -9,7 +9,7 @@
 성함으로 폴더 생성하신후
 pyton 또는 JavaScript로 작성한 코드와
 코드에 대한 설명(ReadMe나 코드란 주석으로)을 작성해주시면 됩니다.
-자세한 양식은 kyungyeul폴더 참고해주세요
+자세한 양식은 최경열폴더 참고해주세요
 
 JavaScript Tip
 
