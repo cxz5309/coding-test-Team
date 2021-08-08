@@ -1,0 +1,52 @@
+```py
+import collections
+
+
+def bfs1(cur_r, cur_c, q, g):
+    Q = collections.deque()
+    Q.append([cur_r, cur_c])
+    q.append([cur_r, cur_c, 0])
+    V[cur_r][cur_c] = g
+    while Q:
+        cur_r, cur_c = Q.popleft()
+        for dx, dy in dr:
+            nxt_r, nxt_c = cur_r + dx, cur_c + dy
+            if 0 <= nxt_r <= N - 1 and 0 <= nxt_c <= N - 1 and A[nxt_r][nxt_c] and not V[nxt_r][nxt_c]:
+                Q.append([nxt_r, nxt_c])
+                q.append([nxt_r, nxt_c, 0])
+                V[nxt_r][nxt_c] = g
+
+
+def bfs2(q, i, g):
+    while q:
+        cur_x, cur_y, cnt = q.popleft()
+        for dx, dy in dr:
+            nxt_x, nxt_y = cur_x + dx, cur_y + dy
+            if 0 <= nxt_x <= N - 1 and 0 <= nxt_y <= N - 1:
+                if not A[nxt_x][nxt_y] and V[nxt_x][nxt_y] != g:
+                    q.append([nxt_x, nxt_y, cnt + 1])
+                    V[nxt_x][nxt_y] = g
+                elif A[nxt_x][nxt_y] and V[nxt_x][nxt_y] != i:
+                    return cnt
+
+
+N = int(input())
+A = [list(map(int, input().split())) for _ in range(N)]
+V = [[0] * N for _ in range(N)]
+dr = [[-1, 0], [1, 0], [0, -1], [0, 1]]
+Qs = []
+ans = N * N
+g = 1
+for r in range(N):
+    for c in range(N):
+        if A[r][c] and not V[r][c]:
+            q = collections.deque()
+            bfs1(r, c, q, g)
+            Qs.append(q)
+            g += 1
+for i in range(len(Qs)):
+    ans = min(ans, bfs2(Qs[i], i + 1, g))
+    g += 1
+print(ans)
+
+```
