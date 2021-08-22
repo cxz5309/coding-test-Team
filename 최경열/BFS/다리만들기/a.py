@@ -1,4 +1,5 @@
 from collections import deque
+import sys
 
 graph = []
 arr = []
@@ -58,7 +59,7 @@ for i in range(n):
             bfs(i, j, count)
             count += 1
 
-
+answer = sys.maxsize
 for k in range(1, count):
     print(k)
     queue = deque()
@@ -68,4 +69,5 @@ for k in range(1, count):
             if graph[i][j] == 1 and world[i][j] == k:
                 queue.append((i, j))
                 world2[i][j] = 1
-    print(bfs2(k))
+    result = bfs2(k)
+    print(world2)
