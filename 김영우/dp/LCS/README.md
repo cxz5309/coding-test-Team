@@ -30,6 +30,6 @@ output
 4
 ```
 
-## 알고리즘 
+## 알고리즘 풀이
 점화식 보고풀었음
 https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=tjdwns0920&logNo=221129635977
