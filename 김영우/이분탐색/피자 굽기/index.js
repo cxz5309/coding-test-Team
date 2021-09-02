@@ -1,9 +1,9 @@
 const fs = require('fs');
 const stdin = (process.platform === 'linux'
     ? fs.readFileSync('/dev/stdin').toString()
-    : `7 2
+    : `7 3
 5 6 4 3 6 2 3
-1 1`
+3 2 5`
 ).split('\n');
  
 const d = Number(stdin[0].split(' ')[0]);
@@ -35,7 +35,7 @@ function binarySearch(sortedArray, startIdx, endIdx, seekElement) {
 function solution(d, n, ovenLen, pizzaLen){
     let answer = 0;
     
-    // console.log(ovenLen);
+    console.log(ovenLen.join(' '));
     let end = d;
     let now = d;
     answer = 0;
@@ -44,7 +44,7 @@ function solution(d, n, ovenLen, pizzaLen){
         return 0;
       now = binarySearch(ovenLen, 0, end, pizzaLen[i]);
       end = now - 1;
-      // console.log('now' + now);
+      console.log('now' + now);
       if(end<0) break;
     }
     return now;
