@@ -44,9 +44,8 @@ function solution(d, n, ovenLen, pizzaLen){
         return 0;
       now = binarySearch(ovenLen, 0, end, pizzaLen[i]);
       end = now - 1;
-      if(end<0) break;
       // console.log('now' + now);
-      // console.log('end' + end);
+      if(end<0) break;
     }
     return now;
 }

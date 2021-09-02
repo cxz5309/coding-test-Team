@@ -2,7 +2,7 @@ const fs = require('fs');
 const stdin = (process.platform === 'linux'
 ? fs.readFileSync('/dev/stdin').toString()
 : `6
-10 20 10 30 20 50`
+1 3 5 7 2 3`
 ).split('\n');
  
 
@@ -10,32 +10,38 @@ let testCase;
 
 testCase = Number(stdin[0]);
 stdin.shift();
-const sequence = stdin[0].split(' ').map(Number);
+const seq = stdin[0].split(' ').map(Number);
 
 //--------------------------------------------------------
 
-function solution(t, sequence){
-  let answer = [];
-  let len = 0;
-  // console.log(sequence);
+function solution(t, seq){
   let dp = new Array(t).fill(1);
+  let dpNums = [];
+  let dpMax = 0;
   for(let i=0; i<t; i++){
-      const thisNum = sequence[i];
+      const thisNum = seq[i];
       for(let j=0; j<i; j++){
-          let prev = sequence[j];
+          let prev = seq[j];
           if(thisNum>prev){
               dp[i] = Math.max(dp[i], dp[j] + 1);
           }
       }
       // console.log(dp.join(' '));
-      len = Math.max(len, dp[i]);
+      dpMax = Math.max(dpMax, dp[i]);
   }
-  for(let i=1;i<=len;i++){
-    const idx = dp.findIndex((val)=>val === i);
-    answer.push(sequence[idx]);
+  let j = seq.length;
+  for(let i=dpMax;i>=1;i--){
+    while(j>0){
+      j--;
+      if(dp[j] === i){
+        dpNums.unshift(seq[j]);
+        break;
+      }
+    }
   }
-  console.log(len);
-  console.log(answer.join(' '));
+  console.log(dpMax);
+  console.log(dpNums.join(' '));
 }
 
-solution(testCase, sequence);
+
+solution(testCase, seq);
