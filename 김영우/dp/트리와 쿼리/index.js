@@ -1,59 +1,54 @@
 const fs = require('fs');
 const stdin = (process.platform === 'linux'
 ? fs.readFileSync('/dev/stdin').toString()
-: `5
-6 3 2 10 -10
-8
-10 9 -5 2 3 4 5 -10`
+: `9 5 3
+1 3
+4 3
+5 4
+5 6
+6 7
+2 3
+9 6
+6 8
+5
+4
+8`
 ).split('\n');
  
-let n, m;
-let cards = [];
-let nums = [];
+let n, r, q;
+let line = stdin.shift().split(' ').map(Number);
+n = line[0];
+r = line[1];
+q = line[2];
 
-n = Number(stdin[0]);
-stdin.shift();
+let graph = Array.from(Array(n+1), ()=>new Array());
+// console.log(graph);
+for(let i=0;i<n-1;i++){
+  line = stdin[i].split(' ').map(Number);
 
-cards = stdin[0].split(' ').map(Number);
-stdin.shift();
-
-m = Number(stdin[0]);
-stdin.shift();
-
-nums = stdin[0].split(' ').map(Number);
-stdin.shift();
-
+  graph[line[0]].push(line[1]);
+  graph[line[1]].push(line[0]);
+}
 
 //--------------------------------------------------------
-
-const binarySearch = (arr, start, end, find)=>{
-  while(start<=end){
-    const middle = Math.floor((end + start) / 2);
-    if(arr[middle] === find){
-      return 1;
-    }
-    else if(arr[middle]<find){
-      start = middle + 1;
-    }
-    else{
-      end = middle - 1;
-    }
+let size = Array(n+1).fill(1);
+const dfs = (now, prev)=>{
+  for(let next of graph[now]){
+    if(prev === next) continue;
+    size[now] += dfs(next, now);
   }
-  return 0;
+  return size[now];
 }
 
-function solution(n,m,cards,nums){
-    let answer = [];
-    cards.sort((a,b)=>{
-      return a-b;
-    })
-    // console.log(cards);
-    // console.log(nums);
-    for(let num of nums){
-      answer.push(binarySearch(cards, 0, n-1, num));
-    }
-    return answer;
+function solution(){
+  let answer = '';
+  dfs(r, 0);
+  
+  for(let i=n-1;i<n - 1 + q;i++){
+    answer += size[Number(stdin[i])] + '\n';
+  }
+  return answer;
 }
 
 
-console.log(solution(n,m,cards,nums).join(' '));
+console.log(solution());
