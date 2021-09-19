@@ -1,59 +1,78 @@
 const fs = require('fs');
 const stdin = (process.platform === 'linux'
 ? fs.readFileSync('/dev/stdin').toString()
-: `5
-6 3 2 10 -10
-8
-10 9 -5 2 3 4 5 -10`
+: `4
+20 -1
+10 -1
+1 1 2 -1
+1000 3 -1`
 ).split('\n');
  
-let n, m;
-let cards = [];
-let nums = [];
+let n;
 
 n = Number(stdin[0]);
 stdin.shift();
 
-cards = stdin[0].split(' ').map(Number);
-stdin.shift();
+let graph = Array.from(Array(n+1), ()=> Array().fill([]));
+let visited = Array(n+1).fill(false);
 
-m = Number(stdin[0]);
-stdin.shift();
+for(let i=0;i<n;i++){
+  const line = stdin[i].split(' ').map(Number);
+  const idx = i+1;
+  const time = line[0];
 
-nums = stdin[0].split(' ').map(Number);
-stdin.shift();
+  const model = {'node': idx, 'time': time}
 
+  if(line.length-2 === 0)
+    graph[0].push(model);
+
+  for(let j=1; j<line.length-1; j++){
+    const parentIdx = line[j];
+    graph[parentIdx].push(model);
+  }
+}
+let dp = Array(n+1).fill(0);
+
+// console.log(graph);
 
 //--------------------------------------------------------
 
-const binarySearch = (arr, start, end, find)=>{
-  while(start<=end){
-    const middle = Math.floor((end + start) / 2);
-    if(arr[middle] === find){
-      return 1;
-    }
-    else if(arr[middle]<find){
-      start = middle + 1;
-    }
-    else{
-      end = middle - 1;
-    }
+let stack = [];
+
+const DFS = (now)=>{
+  const nowNode = now['node'];
+  const nowTime = now['time'];
+
+  dp[nowNode] += nowTime;
+  
+  console.log(nowNode);
+
+
+  for(let next of graph[nowNode]){
+    //  console.log(next);
+    const nextNode = next['node']
+    const nextTime = next['time']
+
+    if(visited[nextNode]) continue;
+    visited[nextNode] = true;
+    DFS(next);
   }
-  return 0;
+  stack.push(nowNode);
 }
 
-function solution(n,m,cards,nums){
+function solution(){
     let answer = [];
-    cards.sort((a,b)=>{
-      return a-b;
-    })
-    // console.log(cards);
-    // console.log(nums);
-    for(let num of nums){
-      answer.push(binarySearch(cards, 0, n-1, num));
+    for(let i=0;i<=n;i++){
+      stack = [];
+      for(let val of graph[i]){
+        console.log('node' + val['node']);
+        DFS(val);
+      }
+      console.log(stack);
     }
+    // answer = dp.filter((val, idx)=>idx>0);
     return answer;
 }
 
 
-console.log(solution(n,m,cards,nums).join(' '));
+console.log(solution().join('\n'));
